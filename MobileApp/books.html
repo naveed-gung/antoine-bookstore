@@ -89,7 +89,6 @@
                         </tr>
                     </thead>
                     <tbody id="booksList">
-                        <!-- Book data will be loaded here -->
                     </tbody>
                 </table>
             </div>
@@ -104,7 +103,6 @@
                 try {
                     var db = openDatabase('Library.db', '1.0', 'Library Database', 2 * 1024 * 1024);
                     
-                    // Fetch and display books
                     db.transaction(function(tx) {
                         tx.executeSql('SELECT * FROM Books', [], function(tx, results) {
                             var len = results.rows.length;

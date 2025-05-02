@@ -125,7 +125,6 @@
         </div>
     </div>
 
-    <!-- About dialog page -->
     <div data-role="page" id="about" data-transition="slidedown">
         <div class="main-container">
             <div class="header">Antoine Bookstore</div>
@@ -152,21 +151,16 @@
     </div>
 
     <script>
-        // Initialize SQLite database
         $(document).ready(function() {
             if (window.openDatabase) {
                 try {
-                    // Create the database
                     var db = openDatabase('Library.db', '1.0', 'Library Database', 2 * 1024 * 1024);
                     
-                    // Create table and insert records
                     db.transaction(function (tx) {
                         tx.executeSql('CREATE TABLE IF NOT EXISTS Books (BookID INTEGER PRIMARY KEY AUTOINCREMENT, BookTitle VARCHAR(20), UnitPrice DECIMAL(10,2))');
                         
-                        // Check if data already exists to avoid duplicate insertions
                         tx.executeSql('SELECT COUNT(*) AS count FROM Books', [], function(tx, results) {
                             if (results.rows.item(0).count === 0) {
-                                // Insert data if the table is empty
                                 tx.executeSql('INSERT INTO Books (BookTitle, UnitPrice) VALUES (?, ?)', ['Visual Basic for Beginners', 24.00]);
                                 tx.executeSql('INSERT INTO Books (BookTitle, UnitPrice) VALUES (?, ?)', ['MS Office 2016 for Dummies', 22.00]);
                                 tx.executeSql('INSERT INTO Books (BookTitle, UnitPrice) VALUES (?, ?)', ['C++ reference', 45.50]);
