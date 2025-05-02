@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Antoine Bookstore</title>
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <style>
+        #splash {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+        }
+        .logo {
+            font-size: 2em;
+            color: red;
+            font-weight: bold;
+        }
+        #splash img {
+            max-width: 90%;
+            height: auto;
+            border: 1px solid #ccc;
+            display: block;
+            margin: 10px auto;
+        }
+        .header {
+            background-color: #99ccff;
+            color: black;
+            padding: 10px;
+            text-align: center;
+            width: 100%;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .content-area {
+            border: 1px solid #ccc;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 350px;
+        }
+        .image-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                window.location.href = "main.html";
+            }, 3000); // Redirect after 3 seconds
+        });
+    </script>
+</head>
+<body>
+    <div data-role="page" id="splash">
+        <div class="content-area">
+            <div class="header">Antoine Bookstore</div>
+            <div class="image-container">
+                <div class="logo">Antoine</div>
+            </div>
+            <div class="image-container">
+                <img src="images/books.png" alt="Antoine Bookstore">
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

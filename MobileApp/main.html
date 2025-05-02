@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Antoine Bookstore</title>
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <style>
+        .main-container {
+            border: 1px solid #ccc;
+            padding: 0;
+            margin: 0 auto;
+            max-width: 350px;
+        }
+        .header {
+            background-color: #99ccff;
+            color: black;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            margin: 0;
+        }
+        .footer {
+            background-color: #e6e6e6;
+            color: black;
+            padding: 5px;
+            text-align: center;
+            margin: 0;
+        }
+        .navbar-row {
+            display: flex;
+            background-color: #ffff99;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar-item {
+            flex: 1;
+            text-align: center;
+            padding: 5px;
+            border-right: 1px solid #ccc;
+        }
+        .navbar-item:last-child {
+            border-right: none;
+        }
+        .navbar-item a {
+            color: black;
+            text-decoration: none;
+            display: block;
+        }
+        .content {
+            text-align: center;
+            padding: 20px;
+        }
+        .antoine-text {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: red;
+            margin-bottom: 20px;
+        }
+        .book-image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        .book-image {
+            max-width: 70%;
+            display: block;
+            margin: 0 auto;
+        }
+        .about-content {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 10px;
+            margin-top: 10px;
+            position: relative;
+        }
+        .about-header {
+            background-color: #0066cc;
+            color: white;
+            padding: 10px;
+            border-radius: 5px 5px 0 0;
+            text-align: center;
+            font-weight: bold;
+        }
+        .about-close {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            color: white;
+            font-weight: bold;
+        }
+        .back-button {
+            background-color: #ffff99;
+            color: black;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 10px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div data-role="page" id="main" data-transition="slideup">
+        <div class="main-container">
+            <div class="header">Antoine Bookstore</div>
+            
+            <div class="navbar-row">
+                <div class="navbar-item"><a href="books.html">Books</a></div>
+                <div class="navbar-item"><a href="contact.html">Contact</a></div>
+                <div class="navbar-item"><a href="#about" data-rel="dialog">About</a></div>
+            </div>
+            
+            <div class="content">
+                <div class="antoine-text">Antoine</div>
+                <div class="book-image-container">
+                    <img src="images/book.png" alt="Book" class="book-image">
+                </div>
+            </div>
+            
+            <div class="footer">Copyright © LT Class</div>
+        </div>
+    </div>
+
+    <!-- About dialog page -->
+    <div data-role="page" id="about" data-transition="slidedown">
+        <div class="main-container">
+            <div class="header">Antoine Bookstore</div>
+            
+            <div class="about-content">
+                <div class="about-header">
+                    <span class="about-close">-</span>
+                    About us
+                </div>
+                <div style="padding: 10px; text-align: center;">
+                    <div>This mobile application</div>
+                    <div>is created and designed by</div>
+                    <div>LT Students at Afak College</div>
+                    <div>Copyright © 2016-2017</div>
+                    <div style="margin: 10px 0;">
+                        <img src="images/about.png" alt="About us" style="max-width: 50%;">
+                    </div>
+                    <a href="#main" data-rel="back" class="back-button">Back</a>
+                </div>
+            </div>
+            
+            <div class="footer">Copyright © LT Class</div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize SQLite database
+        $(document).ready(function() {
+            if (window.openDatabase) {
+                try {
+                    // Create the database
+                    var db = openDatabase('Library.db', '1.0', 'Library Database', 2 * 1024 * 1024);
+                    
+                    // Create table and insert records
+                    db.transaction(function (tx) {
+                        tx.executeSql('CREATE TABLE IF NOT EXISTS Books (BookID INTEGER PRIMARY KEY AUTOINCREMENT, BookTitle VARCHAR(20), UnitPrice DECIMAL(10,2))');
+                        
+                        // Check if data already exists to avoid duplicate insertions
+                        tx.executeSql('SELECT COUNT(*) AS count FROM Books', [], function(tx, results) {
+                            if (results.rows.item(0).count === 0) {
+                                // Insert data if the table is empty
+                                tx.executeSql('INSERT INTO Books (BookTitle, UnitPrice) VALUES (?, ?)', ['Visual Basic for Beginners', 24.00]);
+                                tx.executeSql('INSERT INTO Books (BookTitle, UnitPrice) VALUES (?, ?)', ['MS Office 2016 for Dummies', 22.00]);
+                                tx.executeSql('INSERT INTO Books (BookTitle, UnitPrice) VALUES (?, ?)', ['C++ reference', 45.50]);
+                                tx.executeSql('INSERT INTO Books (BookTitle, UnitPrice) VALUES (?, ?)', ['PHP 5', 18.20]);
+                            }
+                        });
+                    });
+                } catch (e) {
+                    console.log('Error: ' + e);
+                }
+            } else {
+                alert('WebSQL is not supported by your browser!');
+            }
+        });
+    </script>
+</body>
+</html> 

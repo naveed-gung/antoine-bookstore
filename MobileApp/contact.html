@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Antoine Bookstore - Contact</title>
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <style>
+        .main-container {
+            border: 1px solid #ccc;
+            padding: 0;
+            margin: 0 auto;
+            max-width: 350px;
+        }
+        .header {
+            background-color: #99ccff;
+            color: black;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            position: relative;
+        }
+        .footer {
+            background-color: #99ccff;
+            color: black;
+            padding: 5px;
+            text-align: center;
+        }
+        .back-button {
+            background-color: #ffff99;
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 5px 10px;
+            text-decoration: none;
+            color: black;
+        }
+        .form-container {
+            padding: 10px;
+        }
+        .field {
+            margin-bottom: 10px;
+        }
+        .field label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+        }
+        .field input, .field select, .field textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            float: right;
+        }
+        .error {
+            color: red;
+            font-size: 0.8em;
+        }
+    </style>
+</head>
+<body>
+    <div data-role="page" id="contact">
+        <div class="main-container">
+            <div class="header">
+                <a href="main.html" class="back-button">Back</a>
+                Contact us
+            </div>
+
+            <div class="form-container">
+                <form id="contactForm" action="others/process.php" method="post">
+                    <div class="field">
+                        <label for="username">Your Name</label>
+                        <input type="text" name="username" id="username" required>
+                        <span class="error" id="usernameError"></span>
+                    </div>
+                    
+                    <div class="field">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" required placeholder="you@youremail.com">
+                        <span class="error" id="emailError"></span>
+                    </div>
+                    
+                    <div class="field">
+                        <label for="phone">Phone</label>
+                        <input type="tel" name="phone" id="phone" required>
+                        <span class="error" id="phoneError"></span>
+                    </div>
+                    
+                    <div class="field">
+                        <label for="subject">Subject</label>
+                        <select name="subject" id="subject" required>
+                            <option value="Support">Support</option>
+                            <option value="Help">Help</option>
+                        </select>
+                        <span class="error" id="subjectError"></span>
+                    </div>
+                    
+                    <div class="field">
+                        <label for="message">Message</label>
+                        <textarea name="message" id="message" required rows="4"></textarea>
+                        <span class="error" id="messageError"></span>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Send details</button>
+                    <div style="clear: both;"></div>
+                </form>
+            </div>
+
+            <div class="footer">Copyright © LT Class</div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // Form validation
+            $('#contactForm').on('submit', function(e) {
+                let isValid = true;
+                
+                // Clear previous error messages
+                $('.error').text('');
+                
+                // Validate username
+                if ($('#username').val().trim() === '') {
+                    $('#usernameError').text('Please enter your username');
+                    isValid = false;
+                }
+                
+                // Validate email
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test($('#email').val())) {
+                    $('#emailError').text('Please enter a valid email address');
+                    isValid = false;
+                }
+                
+                // Validate phone
+                const phoneRegex = /^\d{10,}$/;
+                if (!phoneRegex.test($('#phone').val().replace(/[- ]/g, ''))) {
+                    $('#phoneError').text('Please enter a valid phone number (at least 10 digits)');
+                    isValid = false;
+                }
+                
+                // Validate message
+                if ($('#message').val().trim() === '') {
+                    $('#messageError').text('Please enter your message');
+                    isValid = false;
+                }
+                
+                if (!isValid) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

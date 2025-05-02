@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Antoine Bookstore - Books</title>
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <style>
+        .main-container {
+            border: 1px solid #ccc;
+            padding: 0;
+            margin: 0 auto;
+            max-width: 350px;
+        }
+        .header {
+            background-color: #99ccff;
+            color: black;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            position: relative;
+        }
+        .footer {
+            background-color: #e6e6e6;
+            color: black;
+            padding: 5px;
+            text-align: center;
+        }
+        .back-button {
+            background-color: #ffff99;
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 5px 10px;
+            text-decoration: none;
+            color: black;
+            border-radius: 0;
+        }
+        .book-image {
+            width: 60px;
+            height: auto;
+            vertical-align: middle;
+            display: block;
+            margin: 0 auto 5px;
+        }
+        .book-cell {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th {
+            background-color: #ccffcc;
+            color: black;
+            padding: 8px;
+            text-align: center;
+            border: 1px solid #ccc;
+        }
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            vertical-align: middle;
+        }
+        .content {
+            background-color: white;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div data-role="page" id="books">
+        <div class="main-container">
+            <div class="header">
+                <a href="main.html" class="back-button">Back</a>
+                Books
+            </div>
+
+            <div class="content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Book</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody id="booksList">
+                        <!-- Book data will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="footer">Copyright © LT Class</div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            if (window.openDatabase) {
+                try {
+                    var db = openDatabase('Library.db', '1.0', 'Library Database', 2 * 1024 * 1024);
+                    
+                    // Fetch and display books
+                    db.transaction(function(tx) {
+                        tx.executeSql('SELECT * FROM Books', [], function(tx, results) {
+                            var len = results.rows.length;
+                            var booksHtml = '';
+                            
+                            for (var i = 0; i < len; i++) {
+                                var book = results.rows.item(i);
+                                booksHtml += '<tr>' +
+                                    '<td class="book-cell"><img src="images/' + book.BookTitle + '.png" class="book-image"> ' + book.BookTitle + '</td>' +
+                                    '<td style="text-align: right;">$ ' + book.UnitPrice.toFixed(2) + '</td>' +
+                                    '</tr>';
+                            }
+                            
+                            $('#booksList').html(booksHtml);
+                        }, function(tx, error) {
+                            console.log('Error: ' + error.message);
+                        });
+                    });
+                } catch (e) {
+                    console.log('Error: ' + e);
+                }
+            } else {
+                alert('WebSQL is not supported by your browser!');
+            }
+        });
+    </script>
+</body>
+</html> 
